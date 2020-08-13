@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('Script no habilitado');
 require_once(APPPATH.'/libraries/REST_Controller.php');
 use Restserver\libraries\REST_Controller;
 
-class Login extends REST_Controller
+class Usuario extends REST_Controller
 {
 
     public function __construct()
@@ -24,7 +24,7 @@ class Login extends REST_Controller
 
         $data=$this->post();
         //validacion del rut y el password
-        if(!isset($data['rut']) OR !isset($data['password']) ){
+        if(!isset($data['rut']) OR !isset($data['password'])  ){
         
             $respuesta= array(
                  'error'=>TRUE,
@@ -77,6 +77,43 @@ where rut=$data['rut] and  password=$data['password']
 
               );
               $this->response($respuesta);
+               
+
+              if(!isset($data['password_nuevo']))
+              {
+
+                $respuesta_nueva= array(
+                    'error'=>TRUE,
+                    'mensaje'=>'No existe dato válido'
+                   
+    
+                  );
+
+                 
+
+                  $this->response($respuesta_nueva);
+
+              }
+
+              else
+
+              {
+
+                $respuesta_nueva= array(
+                    'error'=>false,
+                    'mensaje'=>'Nueva contraseña con exito'
+                   
+    
+                  );
+
+                 
+                  $this->response($respuesta_nueva);
+                     
+
+                actualizar($data['password_nuevo'],$data['$rut']);
+                   
+
+              }
               return;
 
         }
@@ -89,7 +126,15 @@ where rut=$data['rut] and  password=$data['password']
 
     }
 
+    public function actualizar($password_nuevo,$rut)
 
+    {
+        $query = $this->db->query("update usuario set usuario.password=$password_nuevo where rut=$rut");
+    
+   
+        echo json_encode($query->result());
+
+    }
 
 }
 
