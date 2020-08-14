@@ -1,10 +1,10 @@
-<?php 
+<?php
 
-//damos acceso a la ruta del archivo
-defined('BASEPATH') OR exit('Script no habilitado');
+// damos acceso a la ruta del archivo
+defined('BASEPATH') OR exit('Scrip no habilitado');
 
 require_once(APPPATH.'/libraries/REST_Controller.php');
-use Restserver\libraries\REST_Controller;
+use Restserver\Libraries\REST_Controller;
 
 class Usuario extends REST_Controller
 {
@@ -18,13 +18,15 @@ class Usuario extends REST_Controller
         $this->load->database();
 
     }  
+
     
     public function index_post()
     {
 
-        $data=$this->post();
+        $data=$this->post();//llena un arreglo con los datos de entrada
         //validacion del rut y el password
-        if(!isset($data['rut']) OR !isset($data['password'])  ){
+        if(!isset($data['rut']) OR !isset($data['password']))
+        {
         
             $respuesta= array(
                  'error'=>TRUE,
@@ -47,16 +49,17 @@ class Usuario extends REST_Controller
       
         //realiza consulta a la base de datos
         $query = $this->db->get_where('usuario',$condiciones);
+        /*
+           select *
+           from usuario
+           where rut=$data['rut'] and password=$data['password'];
+
+        */
+
+
         $usuario = $query->row(); //obtenga o no obtenga registros
         
-/*
-Referencia: https://www.w3adda.com/codeigniter-tutorial/codeigniter-select-query
 
-select *
-from usuario
-where rut=$data['rut] and  password=$data['password']
-
-*/
         if(!isset($usuario))
         {
               $respuesta= array(
@@ -99,6 +102,8 @@ where rut=$data['rut] and  password=$data['password']
 
               {
 
+               
+
                 $respuesta_nueva= array(
                     'error'=>false,
                     'mensaje'=>'Nueva contraseña con exito'
@@ -106,15 +111,19 @@ where rut=$data['rut] and  password=$data['password']
     
                   );
 
-                 
-                  $this->response($respuesta_nueva);
-                     
+                  $this->db->where('rut', $data['rut']);
+                  $this->db->update(usuario, array('password' => $data['password_nuevo']));
 
-                actualizar($data['password_nuevo'],$data['$rut']);
-                   
+                  $this->response($respuesta_nueva);   
+                  
+                  
+                    
+                  return;
+
+               
 
               }
-              return;
+               
 
         }
 
@@ -126,15 +135,8 @@ where rut=$data['rut] and  password=$data['password']
 
     }
 
-    public function actualizar($password_nuevo,$rut)
 
-    {
-        $query = $this->db->query("update usuario set usuario.password=$password_nuevo where rut=$rut");
     
-   
-        echo json_encode($query->result());
-
-    }
 
 }
 
