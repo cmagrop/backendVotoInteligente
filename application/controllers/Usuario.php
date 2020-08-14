@@ -79,15 +79,60 @@ class Usuario extends REST_Controller
                 'mensaje'=>'Autentificacion exitosa'
 
               );
-              $this->response($respuesta);
-               
 
+              $this->response($respuesta);
+
+              //e-mail nuevo 
+              if(!isset($data['email_nuevo']))
+
+              {
+                $respuesta_nueva= array(
+                    'error'=>TRUE,
+                    'mensaje'=>'No existe nuevo e-mail válido'
+                   
+    
+                  );
+
+                 
+
+                  $this->response($respuesta_nueva);
+
+              }
+
+              else
+
+              {
+                $respuesta_nueva= array(
+                    'error'=>false,
+                    'mensaje'=>'Nuevo correo con exito'
+                   
+    
+                  );
+
+                  $this->db->where('rut', $data['rut']);
+                  $this->db->update('usuario', array('email' => $data['email_nuevo']));
+                  /*
+                  update usuario
+                  set email= $data['email_nuevo']
+                  where rut= $data['rut']
+
+                  */
+                  $this->response($respuesta_nueva);   
+                  
+                  
+                    
+                  return;
+
+              }
+
+
+              //password nuevo
               if(!isset($data['password_nuevo']))
               {
 
                 $respuesta_nueva= array(
                     'error'=>TRUE,
-                    'mensaje'=>'No existe dato válido'
+                    'mensaje'=>'No existe  nuevo password válido'
                    
     
                   );
@@ -113,7 +158,11 @@ class Usuario extends REST_Controller
 
                   $this->db->where('rut', $data['rut']);
                   $this->db->update(usuario, array('password' => $data['password_nuevo']));
-
+                  /* 
+                  update usuario
+                  set password= $data['password_nuevo']
+                  where rut=$data['rut']
+                  */
                   $this->response($respuesta_nueva);   
                   
                   
