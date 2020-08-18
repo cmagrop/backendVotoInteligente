@@ -21,7 +21,7 @@ class votacion extends REST_controller{
 public function index_get($votacion){
 
    
-    if($votacion=='todas')
+    if($votacion==-1)
     {
     $query = $this->db->query("select * from votacion");
     echo json_encode($query->result());
