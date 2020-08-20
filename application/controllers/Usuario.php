@@ -81,111 +81,14 @@ class Usuario extends REST_Controller
               );
 
               $this->response($respuesta);
-
-              //e-mail nuevo 
-              if(!isset($data['email_nuevo']))
-
-              {
-                $respuesta_nueva= array(
-                    'error'=>TRUE,
-                    'mensaje'=>'No existe nuevo e-mail válido'
-                   
-    
-                  );
-
-                 
-
-                  $this->response($respuesta_nueva);
-
-              }
-
-              else
-
-              {
-                $respuesta_nueva= array(
-                    'error'=>false,
-                    'mensaje'=>'Nuevo correo con exito'
-                   
-    
-                  );
-
-                  $this->db->where('rut', $data['rut']);
-                  $this->db->update('usuario', array('email' => $data['email_nuevo']));
-                  /*
-                  update usuario
-                  set email= $data['email_nuevo']
-                  where rut= $data['rut']
-
-                  */
-                  $this->response($respuesta_nueva);   
-                  
-                  
-                    
-                  return;
-
-              }
-
-
-              //password nuevo
-              if(!isset($data['password_nuevo']))
-              {
-
-                $respuesta_nueva= array(
-                    'error'=>TRUE,
-                    'mensaje'=>'No existe  nuevo password válido'
-                   
-    
-                  );
-
-                 
-
-                  $this->response($respuesta_nueva);
-
-              }
-
-              else
-
-              {
-
-               
-
-                $respuesta_nueva= array(
-                    'error'=>false,
-                    'mensaje'=>'Nueva contraseña con exito'
-                   
-    
-                  );
-
-                  $this->db->where('rut', $data['rut']);
-                  $this->db->update(usuario, array('password' => $data['password_nuevo']));
-                  /* 
-                  update usuario
-                  set password= $data['password_nuevo']
-                  where rut=$data['rut']
-                  */
-                  $this->response($respuesta_nueva);   
-                  
-                  
-                    
-                  return;
-
-               
-
-              }
                
 
         }
-
-
-
-
 
        
 
     }
 
-
-    
 
 }
 

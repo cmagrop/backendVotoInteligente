@@ -86,7 +86,7 @@ public function index_post(){
          $query = $this->db->insert('usuario_votacion',
             array('FK_rut' => $data['rut'],
             'FK_nro_votacion'=>$data['nro_votacion']));
-
+          
           $this->response($respuesta);
           return;
          
