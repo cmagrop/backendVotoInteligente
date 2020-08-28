@@ -67,7 +67,7 @@ class Usuario extends REST_Controller
                 'mensaje'=>'Usuario y/o contraseña no validos'
 
               );
-              $this->response($respuesta);
+              $this->response($respuesta,REST_Controller::HTTP_UNAUTHORIZED);
               return;
              
         }
